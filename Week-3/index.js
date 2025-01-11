@@ -54,3 +54,69 @@ function deleteTodo(index) {
   elem.parentNode.removeChild(elem);
   console.log("Todo with  deleted succesfully..");
 }
+
+
+//---------------------
+// creating a todo application by cleaner
+
+// function addTodo() {
+//   const divEl = document.createElement("div");
+//   const btnEl = document.createElement("button");
+//   const inputData = document.querySelector("input");
+//   const content = inputData.value;
+//   divEl.innerHTML = content;
+//   btnEl.innerHTML = "Delete Todo";
+
+//   const divParent = document.createElement("div");
+//   divParent.appendChild(divEl);
+//   divParent.appendChild(btnEl);
+
+//   document.querySelector("body").appendChild(divParent);
+// }
+
+// State and components : creating our own compnents and states
+
+let todos = [];
+
+function addTodo() {
+  todos.push({
+    title: document.querySelector("input").value,
+  });
+  render();
+}
+
+function deleteLastTodo() {
+  todos.splice(todos.length - 1, 1); // remove the last element from the END
+  render();
+}
+
+function deleteFirstTodo() {
+  todos.splice(0, 1); // remove the last element from the END
+  render();
+}
+
+function createTodoComponent(todo, index) {
+  const div = document.createElement("div");
+  const h1 = document.createElement("h1");
+  const btn = document.createElement("button");
+  btn.innerHTML = "Delete";
+  h1.innerHTML = todo.title;
+  div.append(h1);
+  div.append(btn);
+  div.setAttribute("onclick", "deleteTodo(" + index + ")");
+  return div;
+}
+
+function deleteTodo(index) {
+  todos.splice(index, 1);
+  render();
+}
+
+function render() {
+  document.getElementById("todos").innerHTML = "";
+  for (let i = 0; i < todos.length; i++) {
+    const ele = createTodoComponent(todos[i], i);
+    document.querySelector("#todos").appendChild(ele);
+  }
+}
+
